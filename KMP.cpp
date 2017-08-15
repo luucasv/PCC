@@ -5,15 +5,26 @@
 
 std::vector<int> getBorder(std::string P){
 	int m = P.size();
-	std::vector<int> nxt(m+1, 0);
-	int i = 1, j = 0;
+	std::vector<int> nxt(m+1, -1);
+	if(m == 0){
+        return nxt;
+    }
+    int i = 1, j = 0;
+    if(m == 1 || P[0] != P[1]){
+        nxt[1] = 0;
+    }
 	while(i+j < m){
 		while(i+j < m && P[i+j] == P[j]){
 			j++;
-			nxt[i+j] = j;
+			if(i+j == m || P[i+j] != P[j]){
+                nxt[i+j] = j;
+            }
+            else{
+                nxt[i+j] = nxt[j];
+            }
 		}
-		i += std::max(1 , j - nxt[j]);
-		j = nxt[j];
+		i += j - nxt[j];
+		j = std::max(0, nxt[j]);
 	}
 	return nxt;
 }
@@ -30,7 +41,7 @@ std::list<int> KMP(std::string T, std::string P){
 			occ.push_back(i);
 		}
 		i += std::max(1, (j-nxt[j]));
-		j = nxt[j];
+		j = std::max(0, nxt[j]);
 	}
 	return occ;
 }
