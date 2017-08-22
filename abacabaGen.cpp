@@ -3,7 +3,6 @@
 #include <ctime>
 #include <string>
 
-using namespace std;
 
 std::string gen(int x){
     if(x == 0){
@@ -23,4 +22,3 @@ int main(){
     std::cout << st << std::endl;
     std::cout << st.substr(i, i+x) << std::endl;
 }
-

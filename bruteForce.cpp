@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
-#include <list>
+#include <vector>
 
-std::list<int> bruteForce(std::string T, std::string P){
+std::vector<int> bruteForce(std::string T, std::string P){
 	int n = T.size(), m = P.size();
-	std::list<int> occ;
+	std::vector<int> occ;
 	for(int i = 0; i <= n - m; i++){
 		int j;
 		for(j = 0; j < m && T[i+j] == P[j]; j++);
@@ -15,21 +15,19 @@ std::list<int> bruteForce(std::string T, std::string P){
 	return occ;
 }
 
-void printList(std::list<int> v){
-	if(v.empty()){
-		std::cout << "[]\n";
-		return;
-	}
-	std::cout << "[" << *v.begin();
-	v.pop_front();
-	for(int a : v){
-		std::cout << " , " << a;
+void printVector(std::vector<int> v){
+	std::cout << "[";
+	for(int i = 0; i < v.size(); i++){
+		if(i > 0){
+			std::cout << ", ";
+		}
+		std::cout << v[i];
 	}
 	std::cout << "]\n";
 }
 
 int main(){
 	std::string txt = "abracadabra", pat = "abra";
-	std::list<int> occ = bruteForce(txt, pat);
-	printList(occ);
+	std::vector<int> occ = bruteForce(txt, pat);
+	printVector(occ);
 }
