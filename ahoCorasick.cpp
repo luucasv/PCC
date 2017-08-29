@@ -2,25 +2,37 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_set>
+#include <unordered_map>
 
-std::vector<std::vector<int>> buildFSM(std::string P, int sigmaSize){
-  int m = P.size();
-  std::vector<std::vector<int>> A(m+1, std::vector<int>(sigmaSize, 0));
-  A[0][P[0]] = 1;
-  int brd = 0;
-  for(int i = 1; i <= m; i++){
-    for(int a = 0; a < sigmaSize; a++){
-      brd = A[brd][P[i-1]];
-      if(i < m && a == P[i]){
-        A[i][a] = i+1;
-      }
-			else{
-        A[i][a] = A[brd][a];
-      }
+class Trie{
+public:
+  struct node{
+    std::unordered_map<char, node*> edges;
+    std::unordered_set<int> theta;
+  };
+
+  Trie(std::vector<std::string> pi){
+    root = new node;
+    for(std::string s : pi){
+      insert(s);
     }
-	}
-  return A;
-}
+  }
+
+  void insert(const std::string& s){
+    node *cur = root;
+    for(char ch : s){
+      if(!cur->edges.count(ch)){
+        cur->edges[ch] = new node;
+      }
+      cur = cur->edges[ch];
+    }
+  }
+
+private:
+  node *root;
+};
+
 
 std::vector<int> ahoCorasick(std::string T, std::string P, int sigmaSize){
 	int n = T.size(), m = P.size();
